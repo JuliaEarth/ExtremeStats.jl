@@ -10,5 +10,5 @@
 [julia-pkg-img]: http://pkg.julialang.org/badges/ExtremeStats_0.6.svg
 [julia-pkg-url]: http://pkg.julialang.org/?pkg=ExtremeStats
 
-[codecov-img]: https://codecov.io/gh/juliohm/CoDa.jl/branch/master/graph/badge.svg
+[codecov-img]: https://codecov.io/gh/juliohm/ExtremeStats.jl/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/juliohm/ExtremeStats.jl
