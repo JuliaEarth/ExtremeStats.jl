@@ -9,9 +9,9 @@
   # get user input
   maxima = rp.args[1]
 
-  ms = sort(collect(maxima))
+  vals = sort(collect(maxima))
 
-  n = length(ms)
+  n = length(vals)
   p = (1:n) / (n+1)
   T = 1 ./ (1 - p)
 
@@ -21,5 +21,5 @@
   ylabel --> "return level"
   label --> "$n maxima"
 
-  T, ms
+  T, vals
 end
