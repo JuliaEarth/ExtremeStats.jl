@@ -16,6 +16,8 @@ istravis = "TRAVIS" ∈ keys(ENV)
 ismaintainer = "USER" ∈ keys(ENV) && ENV["USER"] ∈ maintainers
 datadir = joinpath(@__DIR__,"data")
 
+srand(2018)
+
 # test samples
 data₁ = rand(LogNormal(2, 2), 5000)
 data₂ = rand(Pareto(.9, 10), 5000)
