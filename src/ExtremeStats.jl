@@ -14,6 +14,7 @@ include("maxima.jl")
 
 # plot recipes
 include("plotrecipes/return_levels.jl")
+include("plotrecipes/mean_excess.jl")
 
 export
   # maxima types
