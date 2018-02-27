@@ -8,9 +8,14 @@ __precompile__()
 module ExtremeStats
 
 using Distributions
+using JuMP, Ipopt
 using RecipesBase
 
+# implement fitting methods
+import Distributions: fit_mle
+
 include("maxima.jl")
+include("fitting.jl")
 
 # plot recipes
 include("plotrecipes/return_levels.jl")
