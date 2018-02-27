@@ -58,7 +58,8 @@ to maxima via constrained optimization (maximum likelihood + extreme value index
 ```julia
 using Distributions
 
-# TODO
+# fit GEV to block maxima
+fit(GeneralizedExtremeValue, bm)
 ```
 
 ## References
