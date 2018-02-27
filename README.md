@@ -38,10 +38,13 @@ whereas the peak over threshold model does not assume any ordering in the data.
 
 ### Plotting
 
-A few plot recipes are defined for maxima:
+A few plot recipes are defined for maxima as well as for the original values `xs`:
 
 ```julia
 using Plots
+
+# mean excess plot
+excessplot(xs)
 
 # return level plot
 returnplot(bm)
