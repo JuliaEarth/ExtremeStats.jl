@@ -20,6 +20,7 @@ include("fitting.jl")
 # plot recipes
 include("plotrecipes/return_levels.jl")
 include("plotrecipes/mean_excess.jl")
+include("plotrecipes/pareto_quantile.jl")
 
 export
   # maxima types

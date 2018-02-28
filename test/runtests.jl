@@ -26,7 +26,8 @@ data₂ = rand(Pareto(.9, 10), 5000)
 testfiles = [
   "maxima.jl",
   "return_levels.jl",
-  "mean_excess.jl"
+  "mean_excess.jl",
+  "pareto_quantile.jl"
 ]
 
 @testset "ExtremeStats.jl" begin

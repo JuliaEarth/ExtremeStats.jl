@@ -3,19 +3,20 @@
 # Licensed under the ISC License. See LICENCE in the project root.
 # ------------------------------------------------------------------
 
-@userplot ExcessPlot
+@userplot ParetoPlot
 
-@recipe function f(p::ExcessPlot)
+@recipe function f(p::ParetoPlot)
   # get user input
   data = p.args[1]
 
   x = sort(data, rev=true)
-  ks = 2:length(x)
-  ξs = [mean(log.(x[1:k-1]) - log(x[k])) for k in ks]
+  n = length(x)
+  logp = log.([i/(n+1) for i in 1:n])
+  logx = log.(x)
 
-  seriestype --> :path
-  xlabel --> "number of maxima"
-  ylabel --> "extreme value index"
+  seriestype --> :scatter
+  xlabel --> "-log(i/(n+1))"
+  ylabel --> "log(x*)"
 
-  ks, ξs
+  -logp, logx
 end
