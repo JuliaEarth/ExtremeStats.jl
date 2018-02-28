@@ -46,6 +46,9 @@ using Plots
 # mean excess plot
 excessplot(xs)
 
+# Pareto quantile plot
+paretoplot(xs)
+
 # return level plot
 returnplot(bm)
 ```
