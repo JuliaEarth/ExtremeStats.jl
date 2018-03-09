@@ -67,7 +67,9 @@ fit(GeneralizedExtremeValue, bm)
 
 ## References
 
-TODO
+The book [An Introduction to Statistical Modeling of Extreme Values](http://www.springer.com/us/book/9781852334598)
+by Stuart Coles gives a practical introduction to the theory. Most other books I've encountered are too theoretical
+or expose topics that are somewhat disconnected.
 
 [travis-img]: https://travis-ci.org/juliohm/ExtremeStats.jl.svg?branch=master
 [travis-url]: https://travis-ci.org/juliohm/ExtremeStats.jl
