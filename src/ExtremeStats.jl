@@ -8,6 +8,7 @@ __precompile__()
 module ExtremeStats
 
 using Distributions
+using Missings
 using JuMP, Ipopt
 using RecipesBase
 
