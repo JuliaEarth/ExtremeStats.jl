@@ -10,16 +10,15 @@ Fit distribution `D` to maxima `m` with constrained maximum
 likelihood estimation.
 """
 function fit_mle(::Type{GeneralizedExtremeValue}, bm::BlockMaxima)
-  warn("fitting is not fully implemented yet, sorry!")
   # retrive maxima values
   x = collect(bm)
   n = length(x)
 
   # define optimization problem
   mle = Model(solver=IpoptSolver(print_level=0))
-  @variable(mle, μ)
-  @variable(mle, σ)
-  @variable(mle, ξ, start=.1)
+  @variable(mle, μ, start=0.0)
+  @variable(mle, σ, start=1.0)
+  @variable(mle, ξ, start=0.1)
   @NLobjective(mle, Max,
     -n*log(σ)
     -(1 + 1/ξ)*sum(log(1 + ξ*(x[i]-μ)/σ) for i in 1:n)
