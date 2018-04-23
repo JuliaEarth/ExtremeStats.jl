@@ -15,7 +15,7 @@ function fit_mle(::Type{GeneralizedExtremeValue}, bm::BlockMaxima)
   n = length(x)
 
   # define optimization problem
-  mle = Model(solver=IpoptSolver(print_level=0))
+  mle = Model(solver=IpoptSolver(print_level=0, sb="yes"))
   @variable(mle, μ, start=0.0)
   @variable(mle, σ, start=1.0)
   @variable(mle, ξ, start=0.1)
