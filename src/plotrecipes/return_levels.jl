@@ -7,19 +7,25 @@
 
 @recipe function f(rp::ReturnPlot)
   # get user input
-  maxima = rp.args[1]
+  obj = rp.args[1]
 
-  vals = sort(collect(maxima))
+  if obj isa AbstractMaxima
+    seriestype --> :scatter
+    levels = sort(collect(obj))
+    n = length(levels)
+    p = (1:n) / (n + 1)
+    Δt = 1 ./ (1 - p)
+  elseif obj isa GeneralizedExtremeValue
+    seriestype --> :path
+    a, b = rp.args[2:3]
+    levels = linspace(a, b)
+    Δt = 1 ./ (1 - cdf.(obj, levels))
+  end
 
-  n = length(vals)
-  p = (1:n) / (n+1)
-  T = 1 ./ (1 - p)
-
-  seriestype --> :scatter
   xscale --> :log10
   xlabel --> "return period"
   ylabel --> "return level"
-  label --> "$n maxima"
+  label --> "return plot"
 
-  T, vals
+  Δt, levels
 end
