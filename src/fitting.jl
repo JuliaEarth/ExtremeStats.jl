@@ -10,7 +10,8 @@ Fit distribution `D` to maxima `m` with constrained maximum
 likelihood estimation.
 """
 function fit_mle(::Type{GeneralizedExtremeValue}, bm::BlockMaxima)
-  # retrive maxima values
+  warn("fitting GEV not fully implemented/tested, sorry!")
+  # retrieve maxima values
   x = collect(bm)
   n = length(x)
 
