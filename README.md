@@ -55,7 +55,7 @@ returnplot(bm)
 
 ### Fitting
 
-Generalized extreme value (GEV) distributions from the `Distributions.jl` package can be fit
+Generalized extreme value (GEV) and generalized Pareto (GP) distributions from the `Distributions.jl` package can be fit
 to maxima via constrained optimization (maximum likelihood + extreme value index constraints):
 
 ```julia
@@ -63,6 +63,9 @@ using Distributions
 
 # fit GEV to block maxima
 fit(GeneralizedExtremeValue, bm)
+
+# fit GP to peak over threshold
+fit(GeneralizedPareto, pm)
 ```
 
 ## References
