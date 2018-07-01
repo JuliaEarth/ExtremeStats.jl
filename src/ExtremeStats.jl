@@ -27,6 +27,9 @@ include("plotrecipes/pareto_quantile.jl")
 export
   # maxima types
   BlockMaxima,
-  PeakOverThreshold
+  PeakOverThreshold,
+
+  # statistics
+  return_levels
 
 end
