@@ -31,8 +31,19 @@ struct BlockMaxima{V<:AbstractVector} <: AbstractMaxima
 end
 
 function Base.collect(m::BlockMaxima)
-  ms = maximum.([view(m.x, i:i+m.n-1) for i in 1:m.n:length(m.x)-m.n+1])
-  ms[.!(isnan.(ms) .| ismissing.(ms))]
+  result = Vector{Float64}()
+  for i in 1:m.n:length(m.x)-m.n+1
+    xs = view(m.x, i:i+m.n-1)
+
+    xmax = -Inf
+    for x in xs
+      !ismissing(x) && x > xmax && (xmax = x)
+    end
+
+    isinf(xmax) || push!(result, xmax)
+  end
+
+  result
 end
 
 """
@@ -45,7 +56,4 @@ struct PeakOverThreshold{V<:AbstractVector} <: AbstractMaxima
   u::Float64
 end
 
-function Base.collect(m::PeakOverThreshold)
-  ms = m.x[m.x .> m.u]
-  ms[.!(isnan.(ms) .| ismissing.(ms))]
-end
+Base.collect(m::PeakOverThreshold) = filter(x -> !ismissing(x) && x > m.u, m.x)
