@@ -33,11 +33,11 @@ end
 function Base.collect(m::BlockMaxima)
   result = Vector{Float64}()
   for i in 1:m.n:length(m.x)-m.n+1
-    xs = view(m.x, i:i+m.n-1)
+    xs = skipmissing(view(m.x, i:i+m.n-1))
 
     xmax = -Inf
     for x in xs
-      !ismissing(x) && x > xmax && (xmax = x)
+      x > xmax && (xmax = x)
     end
 
     isinf(xmax) || push!(result, xmax)
