@@ -11,21 +11,17 @@
 
   if obj isa AbstractMaxima
     seriestype --> :scatter
-    levels = sort(collect(obj))
-    n = length(levels)
-    p = (1:n) / (n + 1)
-    Δt = 1 ./ (1 - p)
+    Δt, ms = return_levels(obj)
   elseif obj isa GeneralizedExtremeValue
     seriestype --> :path
-    a, b = rp.args[2:3]
-    levels = linspace(a, b)
-    Δt = 1 ./ (1 - cdf.(obj, levels))
+    mmin, mmax = rp.args[2:3]
+    Δt, ms = return_levels(obj, mmin, mmax)
   end
 
   xscale --> :log10
   xlabel --> "return period"
   ylabel --> "return level"
-  label --> "return plot"
+  label  --> "return plot"
 
-  Δt, levels
+  Δt, ms
 end

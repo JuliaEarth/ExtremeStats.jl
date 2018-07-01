@@ -17,6 +17,7 @@ import Distributions: fit_mle
 
 include("maxima.jl")
 include("fitting.jl")
+include("stats.jl")
 
 # plot recipes
 include("plotrecipes/return_levels.jl")
