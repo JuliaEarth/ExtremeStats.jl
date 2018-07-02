@@ -12,6 +12,9 @@ matrix:
   fast_finish: true
 notifications:
   email: false
+addons:
+  apt_packages:
+    - gfortran
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
   - julia -e 'Pkg.clone(pwd()); Pkg.build("ExtremeStats"); Pkg.test("ExtremeStats"; coverage=true)'
