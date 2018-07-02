@@ -4,30 +4,30 @@
 # ------------------------------------------------------------------
 
 """
-    return_levels(maxima)
+    returnlevels(maxima)
 
 Return periods and levels of `maxima`.
 """
-function return_levels(maxima::AbstractMaxima)
+function returnlevels(maxima::AbstractMaxima)
   ms = sort(collect(maxima))
   n = length(ms)
   p = (1:n) / (n + 1)
-  Δt = 1 ./ (1 - p)
+  δt = 1 ./ (1 - p)
 
-  Δt, ms
+  δt, ms
 end
 
 """
-    return_levels(gev, mmin, mmax; nlevels=50)
+    returnlevels(gev, mmin, mmax; nlevels=50)
 
 Return `nlevels` periods and levels of generalized extreme
 value distribution `gev` with maxima in the interval `[mmin,mmax]`.
 """
-function return_levels(gev::GeneralizedExtremeValue,
-                       mmin::Real, mmax::Real;
-                       nlevels::Int=50)
+function returnlevels(gev::GeneralizedExtremeValue,
+                      mmin::Real, mmax::Real;
+                      nlevels::Int=50)
   ms = linspace(mmin, mmax, nlevels)
-  Δt = 1 ./ (1 - cdf.(gev, ms))
+  δt = 1 ./ (1 - cdf.(gev, ms))
 
-  Δt, ms
+  δt, ms
 end

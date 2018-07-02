@@ -68,6 +68,15 @@ fit(GeneralizedExtremeValue, bm)
 fit(GeneralizedPareto, pm)
 ```
 
+### Statistics
+
+A few statistics are defined, contributions are very welcome:
+
+```julia
+# return statistics
+returnlevels(bm)
+```
+
 ## References
 
 The book [An Introduction to Statistical Modeling of Extreme Values](http://www.springer.com/us/book/9781852334598)

@@ -11,11 +11,11 @@
 
   if obj isa AbstractMaxima
     seriestype --> :scatter
-    Δt, ms = return_levels(obj)
+    δt, ms = returnlevels(obj)
   elseif obj isa GeneralizedExtremeValue
     seriestype --> :path
     mmin, mmax = rp.args[2:3]
-    Δt, ms = return_levels(obj, mmin, mmax)
+    δt, ms = returnlevels(obj, mmin, mmax)
   end
 
   xscale --> :log10
@@ -23,5 +23,5 @@
   ylabel --> "return level"
   label  --> "return plot"
 
-  Δt, ms
+  δt, ms
 end

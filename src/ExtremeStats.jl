@@ -30,6 +30,6 @@ export
   PeakOverThreshold,
 
   # statistics
-  return_levels
+  returnlevels
 
 end
