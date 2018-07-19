@@ -31,3 +31,16 @@ function returnlevels(gev::GeneralizedExtremeValue,
 
   δt, ms
 end
+
+
+"""
+    meanexcess(xs, k)
+
+Return mean excess of the data `xs` using previous `k` values.
+"""
+meanexcess(xs::AbstractVector, k::Int) = meanexcess(xs, [k])
+
+function meanexcess(xs::AbstractVector, ks::AbstractVector{Int})
+  ys = sort(xs, rev=true)
+  [mean(log.(ys[1:k-1]) - log(ys[k])) for k in ks]
+end

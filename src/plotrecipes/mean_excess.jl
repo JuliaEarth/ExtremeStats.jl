@@ -7,11 +7,10 @@
 
 @recipe function f(p::ExcessPlot)
   # get user input
-  data = p.args[1]
+  xs = p.args[1]
 
-  x = sort(data, rev=true)
-  ks = 2:length(x)
-  ξs = [mean(log.(x[1:k-1]) - log(x[k])) for k in ks]
+  ks = 2:length(xs)
+  ξs = meanexcess(xs, ks)
 
   seriestype --> :path
   xlabel --> "number of maxima"
