@@ -9,7 +9,7 @@
   # get user input
   obj = rp.args[1]
 
-  if obj isa AbstractMaxima
+  if obj isa AbstractVector
     seriestype --> :scatter
     δt, ms = returnlevels(obj)
   elseif obj isa GeneralizedExtremeValue

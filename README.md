@@ -50,7 +50,7 @@ excessplot(xs)
 paretoplot(xs)
 
 # return level plot
-returnplot(bm)
+returnplot(xs)
 ```
 
 ### Fitting
@@ -70,11 +70,11 @@ fit(GeneralizedPareto, pm)
 
 ### Statistics
 
-A few statistics are defined, contributions are very welcome:
+A few statistics are defined:
 
 ```julia
 # return statistics
-returnlevels(bm)
+returnlevels(xs)
 ```
 
 ## References

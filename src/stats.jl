@@ -4,12 +4,12 @@
 # ------------------------------------------------------------------
 
 """
-    returnlevels(maxima)
+    returnlevels(xs)
 
-Return periods and levels of `maxima`.
+Return periods and levels of data `xs`.
 """
-function returnlevels(maxima::AbstractMaxima)
-  ms = sort(collect(maxima))
+function returnlevels(xs::AbstractVector)
+  ms = sort(xs)
   n = length(ms)
   p = (1:n) / (n + 1)
   δt = 1 ./ (1 - p)
