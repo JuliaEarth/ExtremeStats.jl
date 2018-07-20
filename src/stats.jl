@@ -38,7 +38,7 @@ end
 
 Return mean excess of the data `xs` using previous `k` values.
 """
-meanexcess(xs::AbstractVector, k::Int) = meanexcess(xs, [k])
+meanexcess(xs::AbstractVector, k::Int) = meanexcess(xs, [k])[1]
 
 function meanexcess(xs::AbstractVector, ks::AbstractVector{Int})
   ys = sort(xs, rev=true)

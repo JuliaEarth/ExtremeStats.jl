@@ -75,6 +75,9 @@ A few statistics are defined:
 ```julia
 # return statistics
 returnlevels(xs)
+
+# mean excess with previous k values
+meanexcess(xs, k)
 ```
 
 ## References
