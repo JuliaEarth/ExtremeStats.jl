@@ -1,8 +1,18 @@
-# ExtremeStats.jl
-
-*Extreme Value Statistics in Julia*
-
-[![][travis-img]][travis-url] [![][julia-pkg-img]][julia-pkg-url] [![][codecov-img]][codecov-url]
+<p align="center">
+  <img src="docs/ExtremeStats.png" height="200"><br>
+  <a href="https://travis-ci.org/juliohm/ExtremeStats.jl">
+    <img src="https://travis-ci.org/juliohm/ExtremeStats.jl.svg?branch=master">
+  </a>
+  <a href="http://pkg.julialang.org/?pkg=ExtremeStats">
+    <img src="http://pkg.julialang.org/badges/ExtremeStats_0.6.svg">
+  </a>
+  <a href="https://codecov.io/gh/juliohm/ExtremeStats.jl">
+    <img src="https://codecov.io/gh/juliohm/ExtremeStats.jl/branch/master/graph/badge.svg">
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/license-ISC-blue.svg">
+  </a>
+</p>
 
 This package provides a set of tools for analysing and estimating extreme value distributions.
 It defines two types, `BlockMaxima` and `PeakOverThreshold`, which can be used to filter a
