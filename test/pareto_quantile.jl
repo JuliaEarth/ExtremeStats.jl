@@ -8,7 +8,7 @@
         png(fname)
       end
       refimg = joinpath(datadir,"ParetoQuantile.png")
-      @test test_images(VisualTest(plot_pareto_quantile, refimg), popup=!istravis) |> success
+      @test test_images(VisualTest(plot_pareto_quantile, refimg), popup=!istravis, tol=0.1) |> success
     end
   end
 end

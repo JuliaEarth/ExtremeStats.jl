@@ -9,7 +9,7 @@
         png(fname)
       end
       refimg = joinpath(datadir,"ReturnLevels.png")
-      @test test_images(VisualTest(plot_return_levels, refimg), popup=!istravis) |> success
+      @test test_images(VisualTest(plot_return_levels, refimg), popup=!istravis, tol=0.1) |> success
     end
   end
 end
