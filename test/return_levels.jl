@@ -1,5 +1,5 @@
 @testset "Return levels" begin
-  srand(2018)
+  Random.seed!(2018)
   xs = rand(LogNormal(0, 1), 5000)
 
   if ismaintainer || istravis

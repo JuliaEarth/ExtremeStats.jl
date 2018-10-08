@@ -1,12 +1,8 @@
 using ExtremeStats
 using Distributions
 using Plots; gr(size=(600,400))
-using Base.Test
 using VisualRegressionTests
-
-# setup GR backend for Travis CI
-ENV["GKSwstype"] = "100"
-ENV["PLOTS_TEST"] = "true"
+using Test, Pkg, Random
 
 # list of maintainers
 maintainers = ["juliohm"]
@@ -16,7 +12,12 @@ istravis = "TRAVIS" ∈ keys(ENV)
 ismaintainer = "USER" ∈ keys(ENV) && ENV["USER"] ∈ maintainers
 datadir = joinpath(@__DIR__,"data")
 
-srand(2018)
+if ismaintainer
+  Pkg.add("Gtk")
+  using Gtk
+end
+
+Random.seed!(2018)
 
 # test samples
 data₁ = rand(LogNormal(2, 2), 5000)

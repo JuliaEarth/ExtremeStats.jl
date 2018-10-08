@@ -3,12 +3,9 @@
 # Licensed under the ISC License. See LICENCE in the project root.
 # ------------------------------------------------------------------
 
-__precompile__()
-
 module ExtremeStats
 
 using Distributions
-using Missings
 using JuMP, Ipopt
 using RecipesBase
 
