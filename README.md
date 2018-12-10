@@ -26,7 +26,7 @@ distributions and plotting classical extreme value statistics.
 Get the latest stable release with Julia's package manager:
 
 ```julia
-Pkg.add("ExtremeStats")
+] add ExtremeStats
 ```
 
 ## Usage
