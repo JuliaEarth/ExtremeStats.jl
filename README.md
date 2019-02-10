@@ -3,9 +3,6 @@
   <a href="https://travis-ci.org/juliohm/ExtremeStats.jl">
     <img src="https://travis-ci.org/juliohm/ExtremeStats.jl.svg?branch=master">
   </a>
-  <a href="http://pkg.julialang.org/?pkg=ExtremeStats">
-    <img src="http://pkg.julialang.org/badges/ExtremeStats_0.6.svg">
-  </a>
   <a href="https://codecov.io/gh/juliohm/ExtremeStats.jl">
     <img src="https://codecov.io/gh/juliohm/ExtremeStats.jl/branch/master/graph/badge.svg">
   </a>
@@ -98,9 +95,6 @@ or expose topics that are somewhat disconnected.
 
 [travis-img]: https://travis-ci.org/juliohm/ExtremeStats.jl.svg?branch=master
 [travis-url]: https://travis-ci.org/juliohm/ExtremeStats.jl
-
-[julia-pkg-img]: http://pkg.julialang.org/badges/ExtremeStats_0.6.svg
-[julia-pkg-url]: http://pkg.julialang.org/?pkg=ExtremeStats
 
 [codecov-img]: https://codecov.io/gh/juliohm/ExtremeStats.jl/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/juliohm/ExtremeStats.jl
