@@ -67,14 +67,14 @@ maxima `pm` with constrained maximum likelihood estimation.
 """
 function fit_mle(::Type{GeneralizedPareto}, pm::PeakOverThreshold)
   # retrieve maxima values
-  x = collect(bm)
+  x = collect(pm)
   n = length(x)
 
   # compute excess
-  y = x - pm.u
+  y = x .- pm.u
 
   # MLE for case ξ ≠ 0
-  mle = Model(solver=IpoptSolver(print_level=0, sb="yes"))
+  mle = Model(with_optimizer(Ipopt.Optimizer, print_level=0,sb="yes"))
   @variable(mle, σ, start=1.0)
   @variable(mle, ξ, start=0.1)
   @NLobjective(mle, Max,
@@ -86,7 +86,7 @@ function fit_mle(::Type{GeneralizedPareto}, pm::PeakOverThreshold)
   @constraint(mle, σ ≥ 1e-6)
 
   # MLE for case ξ = 0
-  mle₀ = Model(solver=IpoptSolver(print_level=0, sb="yes"))
+  mle₀ = Model(with_optimizer(Ipopt.Optimizer, print_level=0,sb="yes"))
   @variable(mle₀, σ₀, start=1.0)
   @NLobjective(mle₀, Max,
     -n*log(σ₀)
@@ -95,20 +95,20 @@ function fit_mle(::Type{GeneralizedPareto}, pm::PeakOverThreshold)
   @constraint(mle₀, σ₀ ≥ 1e-6)
 
   # attempt to solve both cases
-  status  = JuMP.solve(mle)
-  status₀ = JuMP.solve(mle₀)
+  JuMP.optimize!(mle)
+  JuMP.optimize!(mle₀)
 
-  if status == :Optimal && status₀ == :Optimal
+  if termination_status(mle)==MOI.OPTIMAL && termination_status(mle₀)==MOI.OPTIMAL
     # choose the maximum amongst the two
     if getobjectivevalue(mle) > getobjectivevalue(mle₀)
-      GeneralizedPareto(0., getvalue(σ), getvalue(ξ))
+      GeneralizedPareto(0.0, JuMP.value(σ), JuMP.value(ξ))
     else
-      GeneralizedPareto(0., getvalue(σ₀), 0.)
+      GeneralizedPareto(0.0, JuMP.value(σ₀), 0.0)
     end
-  elseif status == :Optimal
-    GeneralizedPareto(0., getvalue(σ), getvalue(ξ))
-  elseif status₀ == :Optimal
-    GeneralizedPareto(0., getvalue(σ₀), 0.)
+  elseif termination_status(mle) == MOI.OPTIMAL
+    GeneralizedPareto(0.0, JuMP.value(σ), JuMP.value(ξ))
+  elseif termination_status(mle₀) == MOI.OPTIMAL
+    GeneralizedPareto(0.0, JuMP.value(σ₀), 0.0)
   else
     error("could not fit distribution to maxima")
   end
