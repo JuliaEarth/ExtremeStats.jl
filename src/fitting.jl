@@ -15,7 +15,7 @@ function fit_mle(::Type{GeneralizedExtremeValue}, bm::BlockMaxima)
   n = length(x)
 
   # MLE for case ξ ≠ 0
-  mle = Model(solver=IpoptSolver(print_level=0, sb="yes"))
+  mle = Model(with_optimizer(Ipopt.Optimizer, print_level=0, sb="yes"))
   @variable(mle, μ, start=0.0)
   @variable(mle, σ, start=1.0)
   @variable(mle, ξ, start=0.1)
@@ -29,7 +29,7 @@ function fit_mle(::Type{GeneralizedExtremeValue}, bm::BlockMaxima)
   @constraint(mle, σ ≥ 1e-6)
 
   # MLE for case ξ = 0
-  mle₀ = Model(solver=IpoptSolver(print_level=0, sb="yes"))
+  mle₀ = Model(with_optimizer(Ipopt.Optimizer, print_level=0, sb="yes"))
   @variable(mle₀, μ₀, start=0.0)
   @variable(mle₀, σ₀, start=1.0)
   @NLobjective(mle₀, Max,
@@ -40,20 +40,24 @@ function fit_mle(::Type{GeneralizedExtremeValue}, bm::BlockMaxima)
   @constraint(mle₀, σ₀ ≥ 1e-6)
 
   # attempt to solve both cases
-  status  = JuMP.solve(mle)
-  status₀ = JuMP.solve(mle₀)
+  JuMP.optimize!(mle)
+  JuMP.optimize!(mle₀)
 
-  if status == :Optimal && status₀ == :Optimal
+  # retrieve status
+  status  = termination_status(mle)
+  statusₒ = termination_status(mleₒ)
+
+  if status == MOI.OPTIMAL && status₀ == MOI.OPTIMAL
     # choose the maximum amongst the two
     if getobjectivevalue(mle) > getobjectivevalue(mle₀)
-      GeneralizedExtremeValue(getvalue(μ), getvalue(σ), getvalue(ξ))
+      GeneralizedExtremeValue(JuMP.value(μ), JuMP.value(σ), JuMP.value(ξ))
     else
-      GeneralizedExtremeValue(getvalue(μ₀), getvalue(σ₀), 0.)
+      GeneralizedExtremeValue(JuMP.value(μ₀), JuMP.value(σ₀), 0.)
     end
-  elseif status == :Optimal
-    GeneralizedExtremeValue(getvalue(μ), getvalue(σ), getvalue(ξ))
-  elseif status₀ == :Optimal
-    GeneralizedExtremeValue(getvalue(μ₀), getvalue(σ₀), 0.)
+  elseif status == MOI.OPTIMAL
+    GeneralizedExtremeValue(JuMP.value(μ), JuMP.value(σ), JuMP.value(ξ))
+  elseif status₀ == MOI.OPTIMAL
+    GeneralizedExtremeValue(JuMP.value(μ₀), JuMP.value(σ₀), 0.)
   else
     error("could not fit distribution to maxima")
   end
@@ -74,7 +78,7 @@ function fit_mle(::Type{GeneralizedPareto}, pm::PeakOverThreshold)
   y = x .- pm.u
 
   # MLE for case ξ ≠ 0
-  mle = Model(with_optimizer(Ipopt.Optimizer, print_level=0,sb="yes"))
+  mle = Model(with_optimizer(Ipopt.Optimizer, print_level=0, sb="yes"))
   @variable(mle, σ, start=1.0)
   @variable(mle, ξ, start=0.1)
   @NLobjective(mle, Max,
@@ -86,7 +90,7 @@ function fit_mle(::Type{GeneralizedPareto}, pm::PeakOverThreshold)
   @constraint(mle, σ ≥ 1e-6)
 
   # MLE for case ξ = 0
-  mle₀ = Model(with_optimizer(Ipopt.Optimizer, print_level=0,sb="yes"))
+  mle₀ = Model(with_optimizer(Ipopt.Optimizer, print_level=0, sb="yes"))
   @variable(mle₀, σ₀, start=1.0)
   @NLobjective(mle₀, Max,
     -n*log(σ₀)
@@ -98,16 +102,20 @@ function fit_mle(::Type{GeneralizedPareto}, pm::PeakOverThreshold)
   JuMP.optimize!(mle)
   JuMP.optimize!(mle₀)
 
-  if termination_status(mle)==MOI.OPTIMAL && termination_status(mle₀)==MOI.OPTIMAL
+  # retrieve status
+  status  = termination_status(mle)
+  statusₒ = termination_status(mleₒ)
+
+  if status == MOI.OPTIMAL && statusₒ == MOI.OPTIMAL
     # choose the maximum amongst the two
     if getobjectivevalue(mle) > getobjectivevalue(mle₀)
       GeneralizedPareto(0.0, JuMP.value(σ), JuMP.value(ξ))
     else
       GeneralizedPareto(0.0, JuMP.value(σ₀), 0.0)
     end
-  elseif termination_status(mle) == MOI.OPTIMAL
+  elseif status == MOI.OPTIMAL
     GeneralizedPareto(0.0, JuMP.value(σ), JuMP.value(ξ))
-  elseif termination_status(mle₀) == MOI.OPTIMAL
+  elseif statusₒ == MOI.OPTIMAL
     GeneralizedPareto(0.0, JuMP.value(σ₀), 0.0)
   else
     error("could not fit distribution to maxima")
