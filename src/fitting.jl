@@ -110,7 +110,7 @@ function fit_mle(::Type{GeneralizedPareto}, pm::PeakOverThreshold)
   status₀ = termination_status(mle₀)
 
   # acceptable statuses
-  OK = MOI.LOCALLY_SOLVED
+  OK = MOI.OPTIMAL
 
   if status == OK && status₀ == OK
     # choose the maximum amongst the two
