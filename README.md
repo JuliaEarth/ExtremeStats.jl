@@ -41,7 +41,8 @@ pm = PeakOverThreshold(xs, 100.)
 ```
 
 For the block maxima model, the values `xs` need to represent a measurement over time,
-whereas the peak over threshold model does not assume any ordering in the data.
+whereas the peak over threshold model does not assume any ordering in the data. Both
+models are lazy, and the maxima values are only returned via a call to `collect`.
 
 ### Plotting
 
