@@ -40,24 +40,27 @@ function fit_mle(::Type{GeneralizedExtremeValue}, bm::BlockMaxima)
   @constraint(mle₀, σ₀ ≥ 1e-6)
 
   # attempt to solve both cases
-  JuMP.optimize!(mle)
-  JuMP.optimize!(mle₀)
+  optimize!(mle)
+  optimize!(mle₀)
 
-  # retrieve status
+  # retrieve solver status
   status  = termination_status(mle)
-  statusₒ = termination_status(mleₒ)
+  status₀ = termination_status(mle₀)
 
-  if status == MOI.OPTIMAL && status₀ == MOI.OPTIMAL
+  # acceptable statuses
+  OK = MOI.OPTIMAL
+
+  if status == OK && status₀ == OK
     # choose the maximum amongst the two
-    if getobjectivevalue(mle) > getobjectivevalue(mle₀)
-      GeneralizedExtremeValue(JuMP.value(μ), JuMP.value(σ), JuMP.value(ξ))
+    if objective_value(mle) > objective_value(mle₀)
+      GeneralizedExtremeValue(value(μ), value(σ), value(ξ))
     else
-      GeneralizedExtremeValue(JuMP.value(μ₀), JuMP.value(σ₀), 0.)
+      GeneralizedExtremeValue(value(μ₀), value(σ₀), 0.)
     end
-  elseif status == MOI.OPTIMAL
-    GeneralizedExtremeValue(JuMP.value(μ), JuMP.value(σ), JuMP.value(ξ))
-  elseif status₀ == MOI.OPTIMAL
-    GeneralizedExtremeValue(JuMP.value(μ₀), JuMP.value(σ₀), 0.)
+  elseif status == OK
+    GeneralizedExtremeValue(value(μ), value(σ), value(ξ))
+  elseif status₀ == OK
+    GeneralizedExtremeValue(value(μ₀), value(σ₀), 0.)
   else
     error("could not fit distribution to maxima")
   end
@@ -99,24 +102,27 @@ function fit_mle(::Type{GeneralizedPareto}, pm::PeakOverThreshold)
   @constraint(mle₀, σ₀ ≥ 1e-6)
 
   # attempt to solve both cases
-  JuMP.optimize!(mle)
-  JuMP.optimize!(mle₀)
+  optimize!(mle)
+  optimize!(mle₀)
 
-  # retrieve status
+  # retrieve solver status
   status  = termination_status(mle)
-  statusₒ = termination_status(mleₒ)
+  status₀ = termination_status(mle₀)
 
-  if status == MOI.OPTIMAL && statusₒ == MOI.OPTIMAL
+  # acceptable statuses
+  OK = MOI.LOCALLY_SOLVED
+
+  if status == OK && status₀ == OK
     # choose the maximum amongst the two
-    if getobjectivevalue(mle) > getobjectivevalue(mle₀)
-      GeneralizedPareto(0.0, JuMP.value(σ), JuMP.value(ξ))
+    if objective_value(mle) > objective_value(mle₀)
+      GeneralizedPareto(0.0, value(σ), value(ξ))
     else
-      GeneralizedPareto(0.0, JuMP.value(σ₀), 0.0)
+      GeneralizedPareto(0.0, value(σ₀), 0.0)
     end
-  elseif status == MOI.OPTIMAL
-    GeneralizedPareto(0.0, JuMP.value(σ), JuMP.value(ξ))
-  elseif statusₒ == MOI.OPTIMAL
-    GeneralizedPareto(0.0, JuMP.value(σ₀), 0.0)
+  elseif status == OK
+    GeneralizedPareto(0.0, value(σ), value(ξ))
+  elseif status₀ == OK
+    GeneralizedPareto(0.0, value(σ₀), 0.0)
   else
     error("could not fit distribution to maxima")
   end
