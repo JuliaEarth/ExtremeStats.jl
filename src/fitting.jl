@@ -48,18 +48,18 @@ function fit_mle(::Type{GeneralizedExtremeValue}, bm::BlockMaxima)
   status₀ = termination_status(mle₀)
 
   # acceptable statuses
-  OK = MOI.OPTIMAL
+  OK = (MOI.OPTIMAL, MOI.LOCALLY_SOLVED)
 
-  if status == OK && status₀ == OK
+  if status ∈ OK && status₀ ∈ OK
     # choose the maximum amongst the two
     if objective_value(mle) > objective_value(mle₀)
       GeneralizedExtremeValue(value(μ), value(σ), value(ξ))
     else
       GeneralizedExtremeValue(value(μ₀), value(σ₀), 0.)
     end
-  elseif status == OK
+  elseif status ∈ OK
     GeneralizedExtremeValue(value(μ), value(σ), value(ξ))
-  elseif status₀ == OK
+  elseif status₀ ∈ OK
     GeneralizedExtremeValue(value(μ₀), value(σ₀), 0.)
   else
     error("could not fit distribution to maxima")
@@ -110,18 +110,18 @@ function fit_mle(::Type{GeneralizedPareto}, pm::PeakOverThreshold)
   status₀ = termination_status(mle₀)
 
   # acceptable statuses
-  OK = MOI.OPTIMAL
+  OK = (MOI.OPTIMAL, MOI.LOCALLY_SOLVED)
 
-  if status == OK && status₀ == OK
+  if status ∈ OK && status₀ ∈ OK
     # choose the maximum amongst the two
     if objective_value(mle) > objective_value(mle₀)
       GeneralizedPareto(0.0, value(σ), value(ξ))
     else
       GeneralizedPareto(0.0, value(σ₀), 0.0)
     end
-  elseif status == OK
+  elseif status ∈ OK
     GeneralizedPareto(0.0, value(σ), value(ξ))
-  elseif status₀ == OK
+  elseif status₀ ∈ OK
     GeneralizedPareto(0.0, value(σ₀), 0.0)
   else
     error("could not fit distribution to maxima")
