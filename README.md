@@ -1,10 +1,10 @@
 <p align="center">
   <img src="docs/ExtremeStats.png" height="200"><br>
-  <a href="https://travis-ci.org/juliohm/ExtremeStats.jl">
-    <img src="https://travis-ci.org/juliohm/ExtremeStats.jl.svg?branch=master">
+  <a href="https://travis-ci.org/JuliaEarth/ExtremeStats.jl">
+    <img src="https://travis-ci.org/JuliaEarth/ExtremeStats.jl.svg?branch=master">
   </a>
-  <a href="https://codecov.io/gh/juliohm/ExtremeStats.jl">
-    <img src="https://codecov.io/gh/juliohm/ExtremeStats.jl/branch/master/graph/badge.svg">
+  <a href="https://codecov.io/gh/JuliaEarth/ExtremeStats.jl">
+    <img src="https://codecov.io/gh/JuliaEarth/ExtremeStats.jl/branch/master/graph/badge.svg">
   </a>
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/license-ISC-blue.svg">
@@ -93,9 +93,3 @@ meanexcess(xs, k)
 The book [An Introduction to Statistical Modeling of Extreme Values](http://www.springer.com/us/book/9781852334598)
 by Stuart Coles gives a practical introduction to the theory. Most other books I've encountered are too theoretical
 or expose topics that are somewhat disconnected.
-
-[travis-img]: https://travis-ci.org/juliohm/ExtremeStats.jl.svg?branch=master
-[travis-url]: https://travis-ci.org/juliohm/ExtremeStats.jl
-
-[codecov-img]: https://codecov.io/gh/juliohm/ExtremeStats.jl/branch/master/graph/badge.svg
-[codecov-url]: https://codecov.io/gh/juliohm/ExtremeStats.jl
