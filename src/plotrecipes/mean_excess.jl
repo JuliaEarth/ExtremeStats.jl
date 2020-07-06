@@ -13,8 +13,8 @@
   ξs = meanexcess(xs, ks)
 
   seriestype --> :path
-  xlabel --> "number of maxima"
-  ylabel --> "extreme value index"
+  xguide --> "number of maxima"
+  yguide --> "extreme value index"
 
   ks, ξs
 end

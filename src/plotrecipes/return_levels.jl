@@ -19,8 +19,8 @@
   end
 
   xscale --> :log10
-  xlabel --> "return period"
-  ylabel --> "return level"
+  xguide --> "return period"
+  yguide --> "return level"
   label  --> "return plot"
 
   δt, ms

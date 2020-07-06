@@ -1,7 +1,6 @@
 using ExtremeStats
 using Distributions
-using Plots
-using VisualRegressionTests
+using Plots, VisualRegressionTests
 using Test, Pkg, Random
 
 # workaround GR warnings

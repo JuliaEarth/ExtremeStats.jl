@@ -15,8 +15,8 @@
   logx = log.(x)
 
   seriestype --> :scatter
-  xlabel --> "-log(i/(n+1))"
-  ylabel --> "log(x*)"
+  xguide --> "-log(i/(n+1))"
+  yguide --> "log(x*)"
 
   -logp, logx
 end
