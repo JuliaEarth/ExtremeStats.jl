@@ -11,7 +11,7 @@ Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 RecipesBase = "3cdcf5f2-1ef4-517c-9805-6587b60abb01"
 
 [compat]
-Distributions = "0.21, 0.22, 0.23"
+Distributions = "0.21, 0.22, 0.23, 0.24"
 Ipopt = "0.6"
 JuMP = "0.20, 0.21"
 RecipesBase = "0.7, 0.8, 1.0"
