@@ -1,13 +1,13 @@
 <p align="center">
   <img src="docs/ExtremeStats.png" height="200"><br>
-  <a href="https://travis-ci.org/JuliaEarth/ExtremeStats.jl">
-    <img src="https://travis-ci.org/JuliaEarth/ExtremeStats.jl.svg?branch=master">
+  <a href="https://github.com/JuliaEarth/ExtremeStats.jl/actions">
+    <img src="https://img.shields.io/github/workflow/status/JuliaEarth/ExtremeStats.jl/CI?style=flat-square">
   </a>
   <a href="https://codecov.io/gh/JuliaEarth/ExtremeStats.jl">
-    <img src="https://codecov.io/gh/JuliaEarth/ExtremeStats.jl/branch/master/graph/badge.svg">
+    <img src="https://img.shields.io/codecov/c/github/JuliaEarth/ExtremeStats.jl?style=flat-square">
   </a>
   <a href="LICENSE">
-    <img src="https://img.shields.io/badge/license-MIT-blue.svg">
+    <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square">
   </a>
 </p>
 
