@@ -1,7 +1,7 @@
 name = "ExtremeStats"
 uuid = "bda1af87-e1f1-54ef-ae32-d9c31cb662a2"
 author = "Júlio Hoffimann <julio.hoffimann@gmail.com>"
-version = "0.2.2"
+version = "0.2.3"
 
 [deps]
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
