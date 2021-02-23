@@ -29,13 +29,13 @@ with an expansion with ξ near zero.
 """
 function log_gev_pdf(_x, μ, σ, ξ)
   x = (_x-μ)/σ
-  if abs(ξ) < 1e-4
+  tx = if abs(ξ) < 1e-4
     # expansion near zero.
-    tx = -x + (x^2)*ξ/2 - (x^3)*(ξ^2)/3 + (x^4)*(ξ^3)/4
+    -x + (x^2)*ξ/2 - (x^3)*(ξ^2)/3 + (x^4)*(ξ^3)/4
   else
-    tx = (-1/ξ)*log(max(0, 1 + x*ξ))
+    (-1/ξ)*log(max(0, 1 + x*ξ))
   end
-  return (ξ+1)*tx - exp(tx) - log(σ)
+  (ξ+1)*tx - exp(tx) - log(σ)
 end
 
 
