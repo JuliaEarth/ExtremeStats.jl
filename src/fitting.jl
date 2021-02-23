@@ -59,6 +59,7 @@ function fit_mle(::Type{GeneralizedExtremeValue}, bm::BlockMaxima)
   @NLobjective(mle, Max, sum(log_gev_pdf(z, μ, σ, ξ) for z in x))
   @NLconstraint(mle, [i=1:n], 1 + ξ*(x[i]-μ)/σ ≥ 1e-6)
   @constraint(mle, σ ≥ 1e-6)
+  @constraint(mle, ξ ≥ -1/2)
 
   # attempt to solve
   optimize!(mle)
@@ -99,6 +100,7 @@ function fit_mle(::Type{GeneralizedPareto}, pm::PeakOverThreshold)
   @NLobjective(mle, Max, sum(log_gpd_pdf(z, 0, σ, ξ) for z in y))
   @NLconstraint(mle, [i=1:n], 1 + ξ*y[i]/σ ≥ 1e-6)
   @constraint(mle, σ ≥ 1e-6)
+  @constraint(mle, ξ ≥ -1/2)
 
   # attempt to solve both cases
   optimize!(mle)
