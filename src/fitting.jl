@@ -11,14 +11,13 @@ with an expansion with ξ near zero.
 """
 function log_gpd_pdf(_x, μ, σ, ξ)
   x = (_x-μ)/σ
-  if abs(ξ) < 1e-4
+  expn = if abs(ξ) < 1e-4
     # expansion for ξ near zero.
-    expn = -x*(ξ+1) + (x^2)*ξ*(ξ+1)/2 - 
-            (x^3)*(ξ^2)*(ξ+1)/3 + (x^4)*(ξ^3)*(ξ+1)/4
-    return expn - log(σ)
+    -x*(ξ+1) + (x^2)*ξ*(ξ+1)/2 - (x^3)*(ξ^2)*(ξ+1)/3 + (x^4)*(ξ^3)*(ξ+1)/4
   else
-    return (-(ξ+1)/ξ)*log(max(0, 1 + x*ξ)) - log(σ)
+    (-(ξ+1)/ξ)*log(max(0, 1 + x*ξ))
   end
+  expn - log(σ)
 end
 
 
@@ -116,4 +115,3 @@ function fit_mle(::Type{GeneralizedPareto}, pm::PeakOverThreshold)
     error("could not fit distribution to maxima")
   end
 end
-
