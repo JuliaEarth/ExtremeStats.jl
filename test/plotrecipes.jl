@@ -8,23 +8,21 @@ if visualtests
     xs = rand(LogNormal(0, 1), 5000)
 
     @testset "Return levels" begin
-      @plottest returnplot(xs,label="log-normal") joinpath(datadir,"ReturnLevels.png") !istravis
+      @test_reference "data/ReturnLevels.png" returnplot(xs,label="log-normal")
     end
 
     @testset "Mean excess" begin
-      @plottest begin
-        plt1 = excessplot(data₁, label="Lognormal")
-        plt2 = excessplot(data₂, label="Pareto")
-        plot(plt1, plt2, size=(600,800), layout=(2,1))
-      end joinpath(datadir,"MeanExcess.png") !istravis
+      plt1 = excessplot(data₁, label="Lognormal")
+      plt2 = excessplot(data₂, label="Pareto")
+      plt = plot(plt1, plt2, size=(600,800), layout=(2,1))
+      @test_reference "data/MeanExcess.png" plt
     end
 
     @testset "Pareto quantile" begin
-      @plottest begin
-        plt1 = paretoplot(data₁, label="Lognormal")
-        plt2 = paretoplot(data₂, label="Pareto")
-        plot(plt1, plt2, size=(600,800), layout=(2,1))
-      end joinpath(datadir,"ParetoQuantile.png") !istravis
+      plt1 = paretoplot(data₁, label="Lognormal")
+      plt2 = paretoplot(data₂, label="Pareto")
+      plt = plot(plt1, plt2, size=(600,800), layout=(2,1))
+      @test_reference "data/ParetoQuantile.png" plt
     end
   end
 end
