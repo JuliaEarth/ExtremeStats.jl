@@ -3,7 +3,7 @@ using Distributions
 using Plots; gr(size=(600,400))
 using ReferenceTests, ImageIO
 using Test, Random
-using RCall, StableRNGs # for fitting
+using Serialization, StableRNGs # for fitting
 
 # workaround GR warnings
 ENV["GKSwstype"] = "100"
@@ -18,7 +18,7 @@ datadir = joinpath(@__DIR__,"data")
 testfiles = [
   "maxima.jl",
   "fitting.jl",
-#  "plotrecipes.jl"
+  "plotrecipes.jl"
 ]
 
 @testset "ExtremeStats.jl" begin
