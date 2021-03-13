@@ -3,7 +3,7 @@ using Distributions
 using Plots; gr(size=(600,400))
 using ReferenceTests, ImageIO
 using Test, Random
-using Serialization, StableRNGs # for fitting
+using DelimitedFiles, StableRNGs # for fitting
 
 # workaround GR warnings
 ENV["GKSwstype"] = "100"
