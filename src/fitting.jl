@@ -2,68 +2,83 @@
 # Licensed under the MIT License. See LICENCE in the project root.
 # ------------------------------------------------------------------
 
+
+"""
+  log_gpd_pdf(arg, μ, σ, ξ)
+
+Log density function of the generalized Pareto distribution, 
+with an expansion with ξ near zero.
+"""
+function log_gpd_pdf(_x, μ, σ, ξ)
+  x = (_x-μ)/σ
+  expn = if abs(ξ) < 1e-5
+    # expansion for ξ near zero.
+    -x*(ξ+1) + (x^2)*ξ*(ξ+1)/2 - (x^3)*(ξ^2)*(ξ+1)/3 + (x^4)*(ξ^3)*(ξ+1)/4
+  else
+    (-(ξ+1)/ξ)*log(max(0, 1 + x*ξ))
+  end
+  expn - log(σ)
+end
+
+
+"""
+  log_gev_pdf(arg, μ, σ, ξ)
+
+Log density function of the generalized extreme value distribution, 
+with an expansion with ξ near zero.
+"""
+function log_gev_pdf(_x, μ, σ, ξ)
+  x = (_x-μ)/σ
+  tx = if abs(ξ) < 1e-10 # this cutoff is _not_ the same as for log_gpd_pdf.
+    # expansion near zero.
+    -x + (x^2)*ξ/2 - (x^3)*(ξ^2)/3 + (x^4)*(ξ^3)/4
+  else
+    (-1/ξ)*log(max(0, 1 + x*ξ))
+  end
+  (ξ+1)*tx - exp(tx) - log(σ)
+end
+
+
 """
     fit_mle(gev, bm)
 
 Fit generalized extreme value distribution `gev` to block maxima
 `bm` with constrained maximum likelihood estimation.
 """
-function fit_mle(::Type{GeneralizedExtremeValue}, bm::BlockMaxima)
+function fit_mle(::Type{GeneralizedExtremeValue}, bm::BlockMaxima; 
+                 init=(μ=0.0, σ=1.0, ξ=0.05))
   # retrieve maxima values
   x = collect(bm)
   n = length(x)
 
-  # MLE for case ξ ≠ 0
-  mle = Model(with_optimizer(Ipopt.Optimizer, print_level=0, sb="yes"))
-  @variable(mle, μ, start=0.0)
-  @variable(mle, σ, start=1.0)
-  @variable(mle, ξ, start=0.1)
-  @NLobjective(mle, Max,
-    -n*log(σ)
-    -(1 + 1/ξ)*sum(log(1 + ξ*(x[i]-μ)/σ) for i in 1:n)
-    -sum((1 + ξ*(x[i]-μ)/σ)^(-1/ξ) for i in 1:n)
-  )
-  @NLconstraint(mle, [i=1:n], 1 + ξ*(x[i]-μ)/σ ≥ 1e-6)
-  @NLconstraint(mle, abs(ξ) ≥ 1e-6)
-  @constraint(mle, σ ≥ 1e-6)
+  # set up the problem
+  mle = Model(optimizer_with_attributes(Ipopt.Optimizer, "print_level"=>0, 
+                                        "sb"=>"yes", "max_iter"=>250))
+  @variable(mle, μ, start=init.μ)
+  @variable(mle, σ, start=init.σ)
+  @variable(mle, ξ, start=init.ξ)
+  JuMP.register(mle, :log_gev_pdf, 4, log_gev_pdf, autodiff=true)
+  @NLobjective(mle, Max, sum(log_gev_pdf(z, μ, σ, ξ) for z in x))
+  @NLconstraint(mle, [i=1:n], 1 + ξ*(x[i]-μ)/σ ≥ 0.0)
+  @constraint(mle, σ ≥ 1e-10)
+  @constraint(mle, ξ ≥ -1/2)
 
-  # MLE for case ξ = 0
-  mle₀ = Model(with_optimizer(Ipopt.Optimizer, print_level=0, sb="yes"))
-  @variable(mle₀, μ₀, start=0.0)
-  @variable(mle₀, σ₀, start=1.0)
-  @NLobjective(mle₀, Max,
-    -n*log(σ₀)
-    -sum((x[i]-μ₀)/σ₀ for i in 1:n)
-    -sum(exp(-(x[i]-μ₀)/σ₀) for i in 1:n)
-  )
-  @constraint(mle₀, σ₀ ≥ 1e-6)
-
-  # attempt to solve both cases
+  # attempt to solve
   optimize!(mle)
-  optimize!(mle₀)
 
   # retrieve solver status
-  status  = termination_status(mle)
-  status₀ = termination_status(mle₀)
+  status = termination_status(mle)
 
   # acceptable statuses
   OK = (MOI.OPTIMAL, MOI.LOCALLY_SOLVED)
 
-  if status ∈ OK && status₀ ∈ OK
-    # choose the maximum amongst the two
-    if objective_value(mle) > objective_value(mle₀)
-      GeneralizedExtremeValue(value(μ), value(σ), value(ξ))
-    else
-      GeneralizedExtremeValue(value(μ₀), value(σ₀), 0.)
-    end
-  elseif status ∈ OK
+  if status ∈ OK
     GeneralizedExtremeValue(value(μ), value(σ), value(ξ))
-  elseif status₀ ∈ OK
-    GeneralizedExtremeValue(value(μ₀), value(σ₀), 0.)
   else
-    error("could not fit distribution to maxima")
+    error("could not fit distribution. Exited with status $status.")
   end
 end
+
 
 """
     fit_mle(gp, pm)
@@ -71,58 +86,35 @@ end
 Fit generalized Pareto distribution `gp` to peak over threshold
 maxima `pm` with constrained maximum likelihood estimation.
 """
-function fit_mle(::Type{GeneralizedPareto}, pm::PeakOverThreshold)
+function fit_mle(::Type{GeneralizedPareto}, pm::PeakOverThreshold;
+                 init=(σ=1.0, ξ=0.05))
   # retrieve maxima values
   x = collect(pm)
   n = length(x)
 
-  # compute excess
-  y = x .- pm.u
-
-  # MLE for case ξ ≠ 0
-  mle = Model(with_optimizer(Ipopt.Optimizer, print_level=0, sb="yes"))
-  @variable(mle, σ, start=1.0)
-  @variable(mle, ξ, start=0.1)
-  @NLobjective(mle, Max,
-    -n*log(σ)
-    -(1 + 1/ξ)*sum(log(1 + ξ*y[i]/σ) for i in 1:n)
-  )
-  @NLconstraint(mle, [i=1:n], 1 + ξ*y[i]/σ ≥ 1e-6)
-  @NLconstraint(mle, abs(ξ) ≥ 1e-6)
-  @constraint(mle, σ ≥ 1e-6)
-
-  # MLE for case ξ = 0
-  mle₀ = Model(with_optimizer(Ipopt.Optimizer, print_level=0, sb="yes"))
-  @variable(mle₀, σ₀, start=1.0)
-  @NLobjective(mle₀, Max,
-    -n*log(σ₀)
-    -sum(y[i] for i in 1:n)/σ₀
-  )
-  @constraint(mle₀, σ₀ ≥ 1e-6)
+  # set up the problem
+  mle = Model(optimizer_with_attributes(Ipopt.Optimizer, "print_level"=>0, 
+                                        "sb"=>"yes", "max_iter"=>250))
+  @variable(mle, σ, start=init.σ)
+  @variable(mle, ξ, start=init.ξ)
+  JuMP.register(mle, :log_gpd_pdf, 4, log_gpd_pdf, autodiff=true)
+  @NLobjective(mle, Max, sum(log_gpd_pdf(z, pm.u, σ, ξ) for z in x))
+  @NLconstraint(mle, [i=1:n], 1 + ξ*(x[i]-pm.u)/σ ≥ 0.0)
+  @constraint(mle, σ ≥ 1e-10)
+  @constraint(mle, ξ ≥ -1/2)
 
   # attempt to solve both cases
   optimize!(mle)
-  optimize!(mle₀)
 
   # retrieve solver status
   status  = termination_status(mle)
-  status₀ = termination_status(mle₀)
 
   # acceptable statuses
   OK = (MOI.OPTIMAL, MOI.LOCALLY_SOLVED)
 
-  if status ∈ OK && status₀ ∈ OK
-    # choose the maximum amongst the two
-    if objective_value(mle) > objective_value(mle₀)
-      GeneralizedPareto(0.0, value(σ), value(ξ))
-    else
-      GeneralizedPareto(0.0, value(σ₀), 0.0)
-    end
-  elseif status ∈ OK
-    GeneralizedPareto(0.0, value(σ), value(ξ))
-  elseif status₀ ∈ OK
-    GeneralizedPareto(0.0, value(σ₀), 0.0)
+  if status ∈ OK
+    GeneralizedPareto(pm.u, value(σ), value(ξ))
   else
-    error("could not fit distribution to maxima")
+    error("could not fit distribution. Exited with status $status.")
   end
 end
