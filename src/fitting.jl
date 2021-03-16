@@ -2,7 +2,6 @@
 # Licensed under the MIT License. See LICENCE in the project root.
 # ------------------------------------------------------------------
 
-
 """
   log_gpd_pdf(arg, μ, σ, ξ)
 
@@ -20,7 +19,6 @@ function log_gpd_pdf(_x, μ, σ, ξ)
   expn - log(σ)
 end
 
-
 """
   log_gev_pdf(arg, μ, σ, ξ)
 
@@ -37,7 +35,6 @@ function log_gev_pdf(_x, μ, σ, ξ)
   end
   (ξ+1)*tx - exp(tx) - log(σ)
 end
-
 
 """
     fit_mle(gev, bm)
@@ -78,7 +75,6 @@ function fit_mle(::Type{GeneralizedExtremeValue}, bm::BlockMaxima;
     error("could not fit distribution. Exited with status $status.")
   end
 end
-
 
 """
     fit_mle(gp, pm)
