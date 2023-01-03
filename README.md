@@ -1,7 +1,7 @@
 <p align="center">
   <img src="docs/ExtremeStats.png" height="200"><br>
   <a href="https://github.com/JuliaEarth/ExtremeStats.jl/actions">
-    <img src="https://img.shields.io/github/workflow/status/JuliaEarth/ExtremeStats.jl/CI?style=flat-square">
+    <img src="https://img.shields.io/github/actions/workflow/status/JuliaEarth/ExtremeStats.jl/CI.yml?branch=master&style=flat-square">
   </a>
   <a href="https://codecov.io/gh/JuliaEarth/ExtremeStats.jl">
     <img src="https://img.shields.io/codecov/c/github/JuliaEarth/ExtremeStats.jl?style=flat-square">
