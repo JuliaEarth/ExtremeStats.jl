@@ -13,6 +13,6 @@ RecipesBase = "3cdcf5f2-1ef4-517c-9805-6587b60abb01"
 [compat]
 Distributions = "0.21, 0.22, 0.23, 0.24, 0.25"
 Ipopt = "0.6, 0.7"
-JuMP = "0.20, 0.21"
+JuMP = "0.20, 0.21, 1.18"
 RecipesBase = "0.7, 0.8, 1.0"
 julia = "1"
