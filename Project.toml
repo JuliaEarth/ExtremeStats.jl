@@ -1,7 +1,7 @@
 name = "ExtremeStats"
 uuid = "bda1af87-e1f1-54ef-ae32-d9c31cb662a2"
 author = "Júlio Hoffimann <julio.hoffimann@gmail.com>"
-version = "0.3.2"
+version = "1.0.0"
 
 [deps]
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
@@ -11,8 +11,8 @@ Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 RecipesBase = "3cdcf5f2-1ef4-517c-9805-6587b60abb01"
 
 [compat]
-Distributions = "0.21, 0.22, 0.23, 0.24, 0.25"
-Ipopt = "0.6, 0.7"
-JuMP = "0.20, 0.21"
-RecipesBase = "0.7, 0.8, 1.0"
-julia = "1"
+Distributions = "0.25"
+Ipopt = "1.0"
+JuMP = "1.0"
+RecipesBase = "1.0"
+julia = "1.9"
