@@ -21,12 +21,12 @@ include("plotrecipes/mean_excess.jl")
 include("plotrecipes/pareto_quantile.jl")
 
 export
-    # maxima types
-    BlockMaxima,
-    PeakOverThreshold,
+  # maxima types
+  BlockMaxima,
+  PeakOverThreshold,
 
-    # statistics
-    returnlevels,
-    meanexcess
+  # statistics
+  returnlevels,
+  meanexcess
 hill_estimator
 end
