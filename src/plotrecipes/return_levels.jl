@@ -22,5 +22,5 @@
   yguide --> "return level"
   label  --> "return plot"
 
-  return δt, ms
+  δt, ms
 end
