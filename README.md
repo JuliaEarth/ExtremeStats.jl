@@ -86,6 +86,9 @@ returnlevels(xs)
 
 # mean excess with previous k values
 meanexcess(xs, k)
+
+# Hill estimator for the tail index using the top k largest values
+hillestimator(xs, k)
 ```
 
 ## References
