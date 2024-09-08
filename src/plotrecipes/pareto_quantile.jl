@@ -10,7 +10,7 @@
 
   x = sort(data, rev=true)
   n = length(x)
-  logp = log.([i/(n+1) for i in 1:n])
+  logp = log.([i / (n + 1) for i in 1:n])
   logx = log.(x)
 
   seriestype --> :scatter
