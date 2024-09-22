@@ -23,8 +23,8 @@ Return `nlevels` periods and levels of generalized extreme
 value distribution `gev` with maxima in the interval `[mmin,mmax]`.
 """
 function returnlevels(gev::GeneralizedExtremeValue,
-		      mmin::Real, mmax::Real;
-		      nlevels::Int=50)
+                      mmin::Real, mmax::Real;
+                      nlevels::Int=50)
   ms = linspace(mmin, mmax, nlevels)
   δt = 1 ./ (1 .- cdf.(gev, ms))
 
