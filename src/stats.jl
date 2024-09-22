@@ -40,3 +40,21 @@ function meanexcess(xs::AbstractVector, ks::AbstractVector{Int})
   ys = sort(xs, rev=true)
   [mean(log.(ys[1:(k - 1)])) - log(ys[k]) for k in ks]
 end
+
+"""
+    hillestimator(data, k)
+
+Return the Hill estimator of the tail index for the data `xs` using the top `k` largest values.
+"""
+function hillestimator(xs::AbstractVector, k::Int)
+    sorted_xs = sort(xs, rev=true)
+
+    if k >= length(sorted_xs)
+        error("k must be smaller than the number of data points")
+    end
+
+    sum_log_ratios = sum(log(sorted_xs[i]) - log(sorted_xs[k+1]) for i in 1:k)
+    hill_estimate = sum_log_ratios / k
+
+    return hill_estimate
+end
