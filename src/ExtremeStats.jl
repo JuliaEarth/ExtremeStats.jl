@@ -27,6 +27,6 @@ export
 
   # statistics
   returnlevels,
-  meanexcess
-  hill_estimator
+  meanexcess,
+  hillestimator
 end
