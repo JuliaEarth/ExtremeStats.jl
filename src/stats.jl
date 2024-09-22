@@ -29,6 +29,7 @@ function returnlevels(gev::GeneralizedExtremeValue, mmin::Real, mmax::Real; nlev
   δt, ms
 end
 
+
 """
     meanexcess(xs, k)
 
@@ -38,7 +39,7 @@ meanexcess(xs::AbstractVector, k::Int) = meanexcess(xs, [k])[1]
 
 function meanexcess(xs::AbstractVector, ks::AbstractVector{Int})
   ys = sort(xs, rev=true)
-  [mean(log.(ys[1:(k - 1)])) - log(ys[k]) for k in ks]
+  [mean(log.(ys[1:k-1])) - log(ys[k]) for k in ks]
 end
 
 """
