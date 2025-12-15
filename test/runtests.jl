@@ -2,10 +2,13 @@ using ExtremeStats
 using Distributions
 using StableRNGs
 using DelimitedFiles
-using Plots;
-gr(size=(600, 400));
-using ReferenceTests, ImageIO
+using Plots
+using ReferenceTests
+using ImageIO
 using Test, Random
+
+# set figure size for GR backend
+gr(size=(600, 400))
 
 # workaround GR warnings
 ENV["GKSwstype"] = "100"
