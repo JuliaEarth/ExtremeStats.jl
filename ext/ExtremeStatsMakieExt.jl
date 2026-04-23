@@ -63,7 +63,7 @@ function Makie.plot!(plot::ParetoPlot)
   n = Makie.@lift length($y)
 
   # compute log-probabilities and log-values
-  logp = Makie.@lift map(i -> -log(i / ($n + 1)), 1:$n)
+  logp = Makie.@lift map(i -> -log(i / ($n + 1)), 1:($n))
   logy = Makie.@lift map(log, $y)
 
   # plot as scatter
