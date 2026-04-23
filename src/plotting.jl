@@ -10,9 +10,9 @@ Mean excess plot for the data `xs`.
 function excessplot end
 
 """
-    excessplot!(plt, xs)
+    excessplot!(ax, xs)
 
-Mutating version of [`excessplot`](@ref) that adds to an existing plot `plt`.
+Mutating version of [`excessplot`](@ref) that adds to an existing axis `ax`.
 """
 function excessplot! end
 
@@ -24,9 +24,9 @@ Pareto quantile plot for the data `xs`.
 function paretoplot end
 
 """
-    paretoplot!(plt, xs)
+    paretoplot!(ax, xs)
 
-Mutating version of [`paretoplot`](@ref) that adds to an existing plot `plt`.
+Mutating version of [`paretoplot`](@ref) that adds to an existing axis `ax`.
 """
 function paretoplot! end
 
@@ -37,7 +37,7 @@ Return level plot for the data `xs`.
 function returnplot end
 
 """
-    returnplot!(plt, xs)
-Mutating version of [`returnplot`](@ref) that adds to an existing plot `plt`.
+    returnplot!(ax, xs)
+Mutating version of [`returnplot`](@ref) that adds to an existing axis `ax`.
 """
 function returnplot! end
