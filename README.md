@@ -46,10 +46,11 @@ models are lazy, and the maxima are only returned via a `collect` call.
 
 ### Plotting
 
-A few plot recipes are defined for maxima as well as for the original values `xs`:
+A few plots are defined as [Makie.jl](https://github.com/MakieOrg/Makie.jl) recipes:
 
 ```julia
-using Plots
+# choose a backend
+import GLMakie
 
 # mean excess plot
 excessplot(xs)
@@ -60,6 +61,8 @@ paretoplot(xs)
 # return level plot
 returnplot(xs)
 ```
+
+Please refer to our [visual regression tests](test/plotting.jl) to learn more.
 
 ### Fitting
 
