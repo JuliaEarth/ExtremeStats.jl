@@ -28,21 +28,36 @@ Get the latest stable release with Julia's package manager:
 
 ## Usage
 
-Given a collection of values `xs` (e.g. time series), one can retrieve its maxima:
+Given a collection of values `xs` (e.g. time series), one can define two maxima models:
 
 ```julia
 using ExtremeStats
 
-# find maxima with blocks of size 50
+# maximum values within blocks of size 50
 bm = BlockMaxima(xs, 50)
 
-# get values above a threshold of 100.
-pm = PeakOverThreshold(xs, 100.)
+# maximum values above a threshold of 100.0
+pm = PeakOverThreshold(xs, 100.0)
 ```
 
 For the block maxima model, the values `xs` need to represent a measurement over time,
 whereas the peak over threshold model does not assume any ordering in the data. Both
 models are lazy, and the maxima are only returned via a `collect` call.
+
+### Fitting
+
+Generalized extreme value (GEV) and generalized Pareto (GP) distributions from the `Distributions.jl`
+package can be fit to maxima via constrained optimization (maximum likelihood + extreme value index constraints):
+
+```julia
+using Distributions
+
+# fit GEV to block maxima
+fit(GeneralizedExtremeValue, bm)
+
+# fit GP to peak over threshold
+fit(GeneralizedPareto, pm)
+```
 
 ### Plotting
 
@@ -64,24 +79,9 @@ returnplot(xs)
 
 Please refer to our [visual regression tests](test/plotting.jl) to learn more about axes conventions.
 
-### Fitting
-
-Generalized extreme value (GEV) and generalized Pareto (GP) distributions from the `Distributions.jl`
-package can be fit to maxima via constrained optimization (maximum likelihood + extreme value index constraints):
-
-```julia
-using Distributions
-
-# fit GEV to block maxima
-fit(GeneralizedExtremeValue, bm)
-
-# fit GP to peak over threshold
-fit(GeneralizedPareto, pm)
-```
-
 ### Statistics
 
-A few statistics are defined:
+The following statistics are exported for convenience:
 
 ```julia
 # return statistics
