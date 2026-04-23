@@ -62,12 +62,12 @@ paretoplot(xs)
 returnplot(xs)
 ```
 
-Please refer to our [visual regression tests](test/plotting.jl) to learn more.
+Please refer to our [visual regression tests](test/plotting.jl) to learn more about axes conventions.
 
 ### Fitting
 
-Generalized extreme value (GEV) and generalized Pareto (GP) distributions from the `Distributions.jl` package can be fit
-to maxima via constrained optimization (maximum likelihood + extreme value index constraints):
+Generalized extreme value (GEV) and generalized Pareto (GP) distributions from the `Distributions.jl`
+package can be fit to maxima via constrained optimization (maximum likelihood + extreme value index constraints):
 
 ```julia
 using Distributions
